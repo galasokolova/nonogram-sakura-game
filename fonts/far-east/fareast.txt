@@ -1,0 +1,49 @@
+Font: Far East
+Created By: Matthew Welch
+E-Mail: matt@squaregear.net
+Web Address: http://www.squaregear.net/fonts/
+
+My fonts are all free.  You can use them for personal or commercial projects,
+and I ask for no money.  I would, however, love to hear from you.  If you use
+my fonts for something please e-mail me letting me know how you used it.  Send
+me a copy if you can or let me know where I can find your work. You are under
+no obligation to do this, I just like to see how my fonts get used.
+
+A license.txt file should have been included with this font, explaining the
+license under which it is made available. You can also read it at:
+
+http://www.squaregear.net/fonts/license.shtml
+
+About the font:
+
+Amaze your friends.  Astound people with your linguistic Acumen.
+Explain to them that on a recent trip to the far east you discovered
+the secret of easily understanding this writing.  Then simply tilt
+your head to the left and read it plain as day.
+
+You see, this font is really just the Latin alphabet made to look
+like an exotic far east script and tilted on its side.  Use all caps
+to achieve this effect and write your text vertically, from bottom
+to top.  For instance, if you wanted your text to say "your name
+here" you would write it like this:
+
+R E E
+U M R
+O A E
+Y N H
+
+This font is not strictly a monospace font, but all the characters
+are the same width except for the space, which is half the width.
+Using '\' will produce a full sized space.
+
+This font can also be written out horizontally, which is easier for
+graphics programs or if you just want to write with this font
+normally.  But what fun would that be?  The right side up characters
+are the lower case.
+
+Numbers are available also.  The actual numbers are right-side-up.
+The sideways ones are the symbols for each number key.  It's the
+shifted number, kind of like a capital letter, see.
+
+)!@#$%^&*(
+0123456789
