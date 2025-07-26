@@ -1,13 +1,14 @@
 import { config } from "../config/config.js";
-import { level1 } from "../levels/level1.js";
 import { getCellSize } from "../view/grid.js";
 import { getGridOffsets } from "../utils/offsets.js";
 
-const { width: cellWidth, height: cellHeight } = getCellSize(level1);
-const { x: gridOffsetX, y: gridOffsetY } = getGridOffsets(level1, cellWidth, cellHeight);
+export let canvas = document.getElementById("nonogram");
+export let ctx = canvas.getContext("2d");
 
-export const canvas = document.getElementById("nonogram");
-canvas.width = gridOffsetX + level1.cols * cellWidth;
-canvas.height = gridOffsetY + level1.rows * cellHeight;
+export function resizeCanvas(level) {
+  const { width: cellWidth, height: cellHeight } = getCellSize(level);
+  const { x: gridOffsetX, y: gridOffsetY } = getGridOffsets(level, cellWidth, cellHeight);
 
-export const ctx = canvas.getContext("2d");
+  canvas.width = gridOffsetX + level.cols * cellWidth;
+  canvas.height = gridOffsetY + level.rows * cellHeight;
+}

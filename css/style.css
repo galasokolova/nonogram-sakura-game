@@ -31,40 +31,74 @@ canvas {
   background: white;
 }
 
-/* Custom Fonts style*/
+/* Custom Fonts style-------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /* Regular version of Night in Tokyo */
 @font-face {
-    font-family: 'Night in Tokyo'; 
-    src: url('../night-in-tokyo/NightinTokyo.ttf') format('truetype');
-    font-weight: normal; 
-    font-style: normal;
+  font-family: 'Night in Tokyo';
+  src: url('/fonts/night-in-tokyo/NightinTokyo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-/* Bold version of Night in Tokyo */
 @font-face {
-    font-family: 'Night in Tokyo'; /* Use the same family name, but specify font-weight */
-    src: url('fonts/night-in-tokyo/NightinTokyo-Bold.ttf') format('truetype');
-    font-weight: bold; /* This font file is for bold text */
-    font-style: normal;
+  font-family: 'Night in Tokyo';
+  src: url('/fonts/night-in-tokyo/NightinTokyo-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
-/* Shadow version of Night in Tokyo (if to use it separately) */
 @font-face {
-    font-family: 'Night in Tokyo Shadow'; 
-    src: url('fonts/night-in-tokyo/NightinTokyoShadow.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Night in Tokyo Shadow';
+  src: url('/fonts/night-in-tokyo/NightinTokyoShadow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
-/* Apply the font to heading */
+/* Osaka Custom Font */
+/* @font-face {
+  font-family: 'Osaka Sans';
+  src: url('/fonts/osaka-sans-serif/osaka-re.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */
+
+/* Заголовки внутри папки html (например, black_white_nonograms.html и 5_5_list.html) */
+/* .osaka-title {
+  font-family: 'Osaka Sans', sans-serif;
+  font-size: 5em;
+  color: #092c61;
+  text-align: center;
+  text-shadow: 0 0 10px #80b3ff;
+} */
+
+
+ /* Apply the font to heading */
 h1 {
     font-family: 'Night in Tokyo', sans-serif;
     font-size: 7.5em;
     color: #333; 
     text-align: center;
-    text-shadow: 1px 1px 4px #5e0275;
+    text-shadow: 20px 20px 20px #ca08c3ef;
+} 
+
+/* Стиль только для уровня */
+.level-title {
+  font-family: 'Night in Tokyo', sans-serif;
+  font-size: 3em;
+  color: #9e2b89;
+  text-align: center;
+  text-shadow: 20px 20px 20px #051401;
+}
+
+/* Главный заголовок (на index.html) */
+.main-title {
+  font-family: 'Night in Tokyo', sans-serif;
+  font-size: 7.5em;
+  color: #333; 
+  text-align: center;
+  text-shadow: 1px 1px 4px #5e0275;
 }
 
 /*  to use the shadow version specifically for something */
@@ -74,6 +108,8 @@ h1 {
     color: #5e0275;
 }
 
+/* Buttons----------------------------------------------------------------------------------------------------------------------------------------------------- */
+
 /* Button container style */
 #toolbar {
     display: flex; 
@@ -81,9 +117,9 @@ h1 {
     align-items: center; 
     gap: 1px; 
     margin-top: 20px; /* padding from the game canvas */
+    
 }
 
-/* Стили для самих кнопок */
 .toolbar-button {
     display: flex; /* Каждая кнопка теперь тоже flex-контейнер для центрирования содержимого */
     justify-content: center; /* Центрируем текст/символ по горизонтали */
@@ -97,21 +133,21 @@ h1 {
     padding: 0; /* Убираем padding, так как размер контролируется width/height */
     font-size: 24px; /* Увеличим размер шрифта, чтобы символы были видны в кнопках */
     font-weight: 600;
-    text-shadow: 0px 0px 10px #83f563, 0px 0px 20px #a3f76bef;
+    text-shadow: 0px 0px 10px #8704a8, 0px 0px 20px #d427ff;
     text-transform: uppercase;
     text-decoration: none;
     color: #151515;
-    background: #217403ef;
-    border: none;
-    border-radius: 5px;
+    background: #62037a;
+    border: 20 20 20px black;
+    border-radius: 15px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(121, 245, 43, 0.4);
+    box-shadow: 20 20 20px rgba(10, 24, 0, 0.1);
     cursor: pointer;
 }
 
 .toolbar-button:hover {
-    background: #43ab06;
-    box-shadow: 0 0 15px rgba(85, 239, 14, 0.6);
+    background: #d744fc;
+    box-shadow: 10 10 15px rgba(0, 0, 0, 0.4);
     color: #fff;
 }
 
@@ -129,20 +165,21 @@ h1 {
 
 /* button on the homepage*/
 .main-button {
-  font-family: 'Night in Tokyo', sans-serif;
+/*   font-family: 'Night in Tokyo', sans-serif; */
+  font-family: sans-serif;
   font-size: 24px;
   padding: 10px 170px;
   background-color: #030b00ef;
   border: none;
   border-radius: 8px;
-  color: white;
+  color: #a65db9;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(16, 42, 0, 0.4);
+  box-shadow: 5 5 10px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
 }
 
 .main-button:hover {
-  background-color: #62037a;
-  box-shadow: 0 0 15px rgba(84, 2, 122, 0.6);
+  background-color: #9e2b89;
+  box-shadow: 0 0 55px rgba(205, 19, 193, 0.6);
   color: #fff;
 }
