@@ -2,12 +2,32 @@ import { ctx, canvas } from './canvas.js';
 import { config } from '../config/config.js';
 import { getGridOffsets } from '../utils/offsets.js';
 
+
 export function getCellSize(level) {
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  const maxRowHints = Math.max(...level.rowHints.map(h => h.length));
+  const maxColHints = Math.max(...level.colHints.map(h => h.length));
+
+  const availableWidth = screenWidth - 40; // немного отступов
+  const availableHeight = screenHeight - 180; // учёт заголовков и кнопок
+
+  const cellWidth = Math.floor(
+    availableWidth / (level.cols + maxRowHints)
+  );
+  const cellHeight = Math.floor(
+    availableHeight / (level.rows + maxColHints)
+  );
+
+  const size = Math.max(10, Math.min(cellWidth, cellHeight)); // не меньше 10px
+
   return {
-    width: config.cellWidth,
-    height: config.cellHeight
+    width: size,
+    height: size
   };
 }
+
 
 export function drawGrid(level) {
   const { width: cellWidth, height: cellHeight } = getCellSize(level);

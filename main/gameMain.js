@@ -9,7 +9,7 @@ if (!levelName) {
 } else {
   import(`../levels/${levelName}.js`)
     .then(module => {
-      const level = module[levelName];
+      const level = module[levelName.split('/').pop()];
       initGame(level);  // передаём уровень в контроллер
       setupToolbar();
     })
@@ -22,7 +22,11 @@ if (!levelName) {
 
 const titleElement = document.getElementById("game-title");
 if (titleElement && levelName) {
-  const displayName = levelName.charAt(0).toUpperCase() + levelName.slice(1);
-  titleElement.textContent = displayName.replace(/([A-Z])/g, ' $1'); // Пробел перед заглавными
+  const filename = levelName.split('/').pop(); // например, "level1"
+  const displayName = filename.replace(/([a-z])([A-Z])/g, '$1 $2')  // levelName → level Name
+                              .replace(/(\d+)/g, ' $1')             // level1 → level 1
+                              .replace(/^./, s => s.toUpperCase()); // первая буква заглавная
+  titleElement.textContent = displayName;
 }
+
 
