@@ -17,7 +17,7 @@ export function drawCross(x, y, w, h) {
 
 
 export function drawDot(x, y, w, h) {
-  ctx.fillStyle = "#00f";
+  ctx.fillStyle = "#000";
   ctx.beginPath();
   ctx.arc(x + w / 2, y + h / 2, Math.min(w, h) / 6, 0, 2 * Math.PI);
   ctx.fill();

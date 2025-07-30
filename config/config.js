@@ -8,8 +8,6 @@ export const config = {
   colorFilled: "#000",
   canvasWidth: 500,
   canvasHeight: 500,
-  hintColor: "#050",
-  font: "12px Arial"
 };
 
 
