@@ -3,16 +3,20 @@
   --hint-color: #000000;
   --hint-bg: #ebffdb;
   --hint-border: #4d7a04;
+  --hint-solved: #aaa; /* ← Добавь сюда */ /* Светло-серый цвет для отгаданных чисел */
 }
+
 @media (min-width: 768px) {
   :root {
     --hint-font: 24px 'Arial';
+    --hint-solved: #aaa;
   }
 }
 
 @media (max-width: 767px) {
   :root {
     --hint-font: 10px 'Arial';
+    --hint-solved: #aaa;
   }
 }
 
@@ -46,7 +50,9 @@ body::before {
 }
 
 canvas {
-
+/*   display: block;
+  max-width: 100%;
+  max-height: 100vh; */
   background: white;
 }
 

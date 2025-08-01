@@ -1,4 +1,3 @@
-import { config } from "../config/config.js";
 import { getCellSize } from "../view/grid.js";
 import { getGridOffsets } from "../utils/offsets.js";
 

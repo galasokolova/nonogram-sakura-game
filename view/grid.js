@@ -1,4 +1,4 @@
-import { ctx, canvas } from './canvas.js';
+import { ctx } from './canvas.js';
 import { config } from '../config/config.js';
 import { getGridOffsets } from '../utils/offsets.js';
 
@@ -38,7 +38,7 @@ export function drawGrid(level) {
 
   // Горизонтальные линии
   for (let r = 0; r <= level.rows; r++) {
-    ctx.strokeStyle = "#000"; 
+    ctx.strokeStyle = "#666"; 
     ctx.beginPath();
     ctx.lineWidth = (r % config.blockSize === 0) ? 2 : 1;
     ctx.moveTo(gridOffsetX, r * cellHeight + gridOffsetY);
@@ -48,7 +48,7 @@ export function drawGrid(level) {
 
   // Вертикальные линии
   for (let c = 0; c <= level.cols; c++) {
-    ctx.strokeStyle = "#000"; 
+    ctx.strokeStyle = "#666"; 
     ctx.beginPath();
     ctx.lineWidth = (c % config.blockSize === 0) ? 2 : 1;
     ctx.moveTo(c * cellWidth + gridOffsetX, gridOffsetY);
@@ -58,7 +58,7 @@ export function drawGrid(level) {
 
   // Вертикальные линии в margin сверху (для colHints)
 for (let c = 0; c <= level.cols; c++) {
-  ctx.strokeStyle = "#000"; 
+  ctx.strokeStyle = "#666"; 
   ctx.beginPath();
   ctx.lineWidth = (c % config.blockSize === 0) ? 2 : 1;
 
@@ -69,7 +69,7 @@ for (let c = 0; c <= level.cols; c++) {
 }
 // Горизонтальные линии для верхнего margin (подсказки сверху)
 for (let r = 0; r <= maxColHints; r++) {
-  ctx.strokeStyle = "#000"; 
+  ctx.strokeStyle = "#666"; 
   const y = r * cellHeight;
   ctx.beginPath();
   ctx.moveTo(gridOffsetX, y);
@@ -80,7 +80,7 @@ for (let r = 0; r <= maxColHints; r++) {
 
 // Горизонтальные линии в margin слева (для rowHints)
 for (let r = 0; r <= level.rows; r++) {
-  ctx.strokeStyle = "#000"; 
+  ctx.strokeStyle = "#666"; 
   ctx.beginPath();
   ctx.lineWidth = (r % config.blockSize === 0) ? 2 : 1;
 
@@ -92,7 +92,7 @@ for (let r = 0; r <= level.rows; r++) {
 
 // Вертикальные линии для левого margin (подсказки слева)
 for (let c = 0; c <= maxRowHints; c++) {
-  ctx.strokeStyle = "#000"; 
+  ctx.strokeStyle = "#666"; 
   const x = c * cellWidth;
   ctx.beginPath();
   ctx.moveTo(x, gridOffsetY);

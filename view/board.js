@@ -14,20 +14,29 @@ export function drawUserBoard(level, board) {
       const { x, y, w, h } = getCellCoordinates(r, c, cellWidth, cellHeight, gridOffsetX, gridOffsetY);
 
       switch (value) {
-        case 1:
+        case 1: // закрашенная клетка
           ctx.fillStyle = config.colorFilled;
           ctx.fillRect(x, y, w, h);
           break;
-        case 2:
+
+        case 2: // автокрестик
+          ctx.strokeStyle = '#888'; // серый или любой другой
           drawCross(x, y, w, h);
           break;
-        case 3:
+
+        case 3: // ручной крестик
+          ctx.strokeStyle = '#222'; // темнее, чтобы отличался
+          drawCross(x, y, w, h);
+          break;
+
+        case 4: // точка
           drawDot(x, y, w, h);
           break;
       }
     }
   }
 }
+
 
 function getCellCoordinates(r, c, cellWidth, cellHeight, gridOffsetX, gridOffsetY) {
   return {

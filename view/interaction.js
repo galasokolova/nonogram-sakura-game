@@ -6,22 +6,27 @@ import { getGridOffsets } from '../utils/offsets.js';
 import { getTool } from '../model/tools.js';
 import { checkWin } from '../utils/checkWin.js';
 import { resizeCanvas, canvas, ctx } from './canvas.js';
+import { refreshCrosses } from '../utils/checkWin.js';
+
 
 export function setupInteraction(level, userBoard) {
   let isDrawing = false;
   let moved = false; // флаг: мышь двигалась после нажатия
 
+
   function redraw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     resizeCanvas(level);
     drawGrid(level);
-    drawHints(level);
-    drawUserBoard(level, userBoard);
-
+    drawHints(level, userBoard);
+    drawUserBoard(level, userBoard); // ← Никаких refreshCrosses здесь
     if (checkWin(level, userBoard)) {
       alert("WOW! Well done! 🎉");
     }
   }
+
+
+
 
   function getCellFromEvent(x, y) {
     const rect = canvas.getBoundingClientRect();
@@ -38,25 +43,55 @@ export function setupInteraction(level, userBoard) {
     const { row, col } = getCellFromEvent(x, y);
     if (row >= 0 && row < level.rows && col >= 0 && col < level.cols) {
       const tool = getTool();
+
+      if (tool === 2) return; // нельзя вручную ставить автокрестики
+
+      if (tool === 0) {
+        if (userBoard[row][col] !== 2) { // не стираем автокрестики
+          userBoard[row][col] = 0;
+          redraw();
+        }
+        return;
+      }
+
       if (userBoard[row][col] !== tool) {
         userBoard[row][col] = tool;
+        if (tool === 1) refreshCrosses(level, userBoard);
         redraw();
       }
     }
   }
 
+
+
   function toggleCell(x, y) {
     const { row, col } = getCellFromEvent(x, y);
     if (row >= 0 && row < level.rows && col >= 0 && col < level.cols) {
       const tool = getTool();
-      if (userBoard[row][col] === tool) {
-        userBoard[row][col] = 0; // Очистка
-      } else {
-        userBoard[row][col] = tool; // Установка
+
+      if (tool === 2) return; // автокрестики вручную не ставим
+
+      if (tool === 0) {
+        if (userBoard[row][col] !== 2) { // не трогаем автокрестики
+          userBoard[row][col] = 0;
+          redraw();
+        }
+        return;
       }
+
+      if (userBoard[row][col] === tool) {
+        userBoard[row][col] = 0;
+      } else {
+        userBoard[row][col] = tool;
+      }
+
+      if (tool === 1) refreshCrosses(level, userBoard);
       redraw();
     }
   }
+
+
+
 
   // Mouse events
   canvas.addEventListener("mousedown", (e) => {
