@@ -1,6 +1,6 @@
 import { ctx } from './canvas.js';
 import { getCellSize } from './grid.js';
-import { config, CELL_PADDING, CELL_BORDER_ADJUST } from '../config/config.js';
+import { config } from '../config/config.js';
 import { drawCross, drawDot } from './symbols.js';
 import { getGridOffsets } from '../utils/offsets.js';
 
@@ -48,9 +48,9 @@ function drawCellByValue(value, x, y, w, h) {
 
 function getCellCoordinates(r, c, cellWidth, cellHeight, gridOffsetX, gridOffsetY) {
   return {
-    x: c * cellWidth + CELL_PADDING + gridOffsetX,
-    y: r * cellHeight + CELL_PADDING + gridOffsetY,
-    w: cellWidth - CELL_BORDER_ADJUST,
-    h: cellHeight - CELL_BORDER_ADJUST
+    x: c * cellWidth + config.cellPadding + gridOffsetX,
+    y: r * cellHeight + config.cellPadding + gridOffsetY,
+    w: cellWidth - config.cellBorderAdjust,
+    h: cellHeight - config.cellBorderAdjust
   };
 }
