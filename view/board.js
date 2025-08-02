@@ -4,36 +4,44 @@ import { config, CELL_PADDING, CELL_BORDER_ADJUST } from '../config/config.js';
 import { drawCross, drawDot } from './symbols.js';
 import { getGridOffsets } from '../utils/offsets.js';
 
+
 export function drawUserBoard(level, board) {
   const { width: cellWidth, height: cellHeight } = getCellSize(level);
   const { x: gridOffsetX, y: gridOffsetY } = getGridOffsets(level, cellWidth, cellHeight);
 
   for (let r = 0; r < level.rows; r++) {
     for (let c = 0; c < level.cols; c++) {
+
       const value = board[r][c];
       const { x, y, w, h } = getCellCoordinates(r, c, cellWidth, cellHeight, gridOffsetX, gridOffsetY);
 
-      switch (value) {
-        case 1: // закрашенная клетка
-          ctx.fillStyle = config.colorFilled;
-          ctx.fillRect(x, y, w, h);
-          break;
+      drawCellByValue(value, x, y, w, h);
 
-        case 2: // автокрестик
-          ctx.strokeStyle = '#888'; // серый или любой другой
-          drawCross(x, y, w, h);
-          break;
-
-        case 3: // ручной крестик
-          ctx.strokeStyle = '#222'; // темнее, чтобы отличался
-          drawCross(x, y, w, h);
-          break;
-
-        case 4: // точка
-          drawDot(x, y, w, h);
-          break;
-      }
     }
+  }
+}
+
+
+function drawCellByValue(value, x, y, w, h) {
+  switch (value) {
+    case 1: // black square
+      ctx.fillStyle = config.colorFilled;
+      ctx.fillRect(x, y, w, h);
+      break;
+
+    case 2: // autofilled cross
+      ctx.strokeStyle = '#888'; 
+      drawCross(x, y, w, h);
+      break;
+
+    case 3: // manual cross
+      ctx.strokeStyle = '#222'; 
+      drawCross(x, y, w, h);
+      break;
+
+    case 4: // dot
+      drawDot(x, y, w, h);
+      break;
   }
 }
 

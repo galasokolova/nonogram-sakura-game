@@ -1,13 +1,14 @@
-let square = Array.from({ length: 5 }, () => "★");
+let square = Array.from(
+  { length: 5 }, 
+  () => "★"
+);
 
 let square1 = Array.from(
-  { length: 5 }, 
-  () => Array(10).fill("*"));
+  { length: 10 }, 
+  () => Array(10).fill("*")
+);
 
 
-console.log(square);
+console.log(square1);
 
 
-function gessSquare(nonoGame){
-  
-}

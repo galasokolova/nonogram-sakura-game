@@ -2,7 +2,6 @@ import { ctx } from './canvas.js';
 import { config } from '../config/config.js';
 import { getGridOffsets } from '../utils/offsets.js';
 
-
 export function getCellSize(level) {
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
@@ -10,8 +9,8 @@ export function getCellSize(level) {
   const maxRowHints = Math.max(...level.rowHints.map(h => h.length));
   const maxColHints = Math.max(...level.colHints.map(h => h.length));
 
-  const availableWidth = screenWidth - 40; // немного отступов
-  const availableHeight = screenHeight - 180; // учёт заголовков и кнопок
+  const availableWidth = screenWidth - config.screenPaddingX;
+  const availableHeight = screenHeight - config.screenPaddingY;
 
   const cellWidth = Math.floor(
     availableWidth / (level.cols + maxRowHints)
@@ -20,14 +19,13 @@ export function getCellSize(level) {
     availableHeight / (level.rows + maxColHints)
   );
 
-  const size = Math.max(10, Math.min(cellWidth, cellHeight)); // не меньше 10px
+  const size = Math.max(config.minCellSize, Math.min(cellWidth, cellHeight));
 
   return {
     width: size,
     height: size
   };
 }
-
 
 export function drawGrid(level) {
   const { width: cellWidth, height: cellHeight } = getCellSize(level);
@@ -36,71 +34,69 @@ export function drawGrid(level) {
   const maxRowHints = Math.max(...level.rowHints.map(h => h.length));
   const maxColHints = Math.max(...level.colHints.map(h => h.length));
 
-  // Горизонтальные линии
+  drawGridLines(level, cellWidth, cellHeight, gridOffsetX, gridOffsetY);
+  drawColHintMargins(level, cellWidth, cellHeight, gridOffsetX, gridOffsetY, maxColHints);
+  drawRowHintMargins(level, cellWidth, cellHeight, gridOffsetX, gridOffsetY, maxRowHints);
+}
+
+function drawRowHintMargins(level, cellWidth, cellHeight, offsetX, offsetY, maxRowHints) {
   for (let r = 0; r <= level.rows; r++) {
-    ctx.strokeStyle = "#666"; 
+    const y = offsetY + r * cellHeight;
+    ctx.strokeStyle = config.gridColor;
+    ctx.lineWidth = (r % config.blockSize === 0) ? config.thickLine : config.thinLine;
     ctx.beginPath();
-    ctx.lineWidth = (r % config.blockSize === 0) ? 2 : 1;
-    ctx.moveTo(gridOffsetX, r * cellHeight + gridOffsetY);
-    ctx.lineTo(gridOffsetX + level.cols * cellWidth, r * cellHeight + gridOffsetY);
+    ctx.moveTo(0, y);
+    ctx.lineTo(offsetX, y);
     ctx.stroke();
   }
 
-  // Вертикальные линии
+  for (let c = 0; c <= maxRowHints; c++) {
+    const x = c * cellWidth;
+    ctx.strokeStyle = config.gridColor;
+    ctx.beginPath();
+    ctx.moveTo(x, offsetY);
+    ctx.lineTo(x, offsetY + level.rows * cellHeight);
+    ctx.stroke();
+  }
+}
+
+function drawColHintMargins(level, cellWidth, cellHeight, offsetX, offsetY, maxColHints) {
   for (let c = 0; c <= level.cols; c++) {
-    ctx.strokeStyle = "#666"; 
+    const x = offsetX + c * cellWidth;
+    ctx.strokeStyle = config.gridColor;
+    ctx.lineWidth = (c % config.blockSize === 0) ? config.thickLine : config.thinLine;
     ctx.beginPath();
-    ctx.lineWidth = (c % config.blockSize === 0) ? 2 : 1;
-    ctx.moveTo(c * cellWidth + gridOffsetX, gridOffsetY);
-    ctx.lineTo(c * cellWidth + gridOffsetX, gridOffsetY + level.rows * cellHeight);
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, offsetY);
     ctx.stroke();
   }
 
-  // Вертикальные линии в margin сверху (для colHints)
-for (let c = 0; c <= level.cols; c++) {
-  ctx.strokeStyle = "#666"; 
-  ctx.beginPath();
-  ctx.lineWidth = (c % config.blockSize === 0) ? 2 : 1;
-
-  const x = gridOffsetX + c * cellWidth;
-  ctx.moveTo(x, 0);
-  ctx.lineTo(x, gridOffsetY);
-  ctx.stroke();
-}
-// Горизонтальные линии для верхнего margin (подсказки сверху)
-for (let r = 0; r <= maxColHints; r++) {
-  ctx.strokeStyle = "#666"; 
-  const y = r * cellHeight;
-  ctx.beginPath();
-  ctx.moveTo(gridOffsetX, y);
-  ctx.lineTo(gridOffsetX + level.cols * cellWidth, y);
-  ctx.stroke();
+  for (let r = 0; r <= maxColHints; r++) {
+    const y = r * cellHeight;
+    ctx.strokeStyle = config.gridColor;
+    ctx.beginPath();
+    ctx.moveTo(offsetX, y);
+    ctx.lineTo(offsetX + level.cols * cellWidth, y);
+    ctx.stroke();
+  }
 }
 
+function drawGridLines(level, cellWidth, cellHeight, offsetX, offsetY) {
+  for (let r = 0; r <= level.rows; r++) {
+    ctx.strokeStyle = config.gridColor;
+    ctx.lineWidth = (r % config.blockSize === 0) ? config.thickLine : config.thinLine;
+    ctx.beginPath();
+    ctx.moveTo(offsetX, r * cellHeight + offsetY);
+    ctx.lineTo(offsetX + level.cols * cellWidth, r * cellHeight + offsetY);
+    ctx.stroke();
+  }
 
-// Горизонтальные линии в margin слева (для rowHints)
-for (let r = 0; r <= level.rows; r++) {
-  ctx.strokeStyle = "#666"; 
-  ctx.beginPath();
-  ctx.lineWidth = (r % config.blockSize === 0) ? 2 : 1;
-
-  const y = gridOffsetY + r * cellHeight;
-  ctx.moveTo(0, y);
-  ctx.lineTo(gridOffsetX, y);
-  ctx.stroke();
+  for (let c = 0; c <= level.cols; c++) {
+    ctx.strokeStyle = config.gridColor;
+    ctx.lineWidth = (c % config.blockSize === 0) ? config.thickLine : config.thinLine;
+    ctx.beginPath();
+    ctx.moveTo(c * cellWidth + offsetX, offsetY);
+    ctx.lineTo(c * cellWidth + offsetX, offsetY + level.rows * cellHeight);
+    ctx.stroke();
+  }
 }
-
-// Вертикальные линии для левого margin (подсказки слева)
-for (let c = 0; c <= maxRowHints; c++) {
-  ctx.strokeStyle = "#666"; 
-  const x = c * cellWidth;
-  ctx.beginPath();
-  ctx.moveTo(x, gridOffsetY);
-  ctx.lineTo(x, gridOffsetY + level.rows * cellHeight);
-  ctx.stroke();
-}
-
-
-}
-
-
