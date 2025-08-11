@@ -25,7 +25,7 @@ if (titleElement && levelName) {
   const filename = levelName.split('/').pop(); // например, "level1"
   const displayName = filename.replace(/([a-z])([A-Z])/g, '$1 $2')  // levelName → level Name
                               .replace(/(\d+)/g, ' $1')             // level1 → level 1
-                              .replace(/^./, s => s.toUpperCase()); // первая буква заглавная
+                              .replace(/^./, s => s.toUpperCase()); // first letter uppercase
   titleElement.textContent = displayName;
 }
 

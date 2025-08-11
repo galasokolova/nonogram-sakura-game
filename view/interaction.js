@@ -6,7 +6,7 @@ import { getGridOffsets } from '../utils/offsets.js';
 import { getTool } from '../model/tools.js';
 import { checkWin } from '../utils/checkWin.js';
 import { resizeCanvas, canvas, ctx } from './canvas.js';
-import { refreshCrosses } from '../utils/checkWin.js';
+import { refreshCrosses } from '../utils/autofill.js';
 
 
 export function setupInteraction(level, userBoard) {
