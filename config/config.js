@@ -8,7 +8,17 @@ export const config = {
   thickLine: 2,
   thinLine: 1,
   cellPadding: 1,
-  cellBorderAdjust: 2
+  cellBorderAdjust: 2,
+
+  hint: {
+    font: '12px Arial',
+    color: '#000000ff',
+    backgroundColor: '#f4ffecff',
+    borderColor: '#CCCCCC',
+    solvedColor: '#aaaaaa',
+    cornerStrokeColor: '#ffffffff',
+    lineWidth: 1
+  }
   
 };
 
