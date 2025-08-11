@@ -10,8 +10,10 @@ if (!levelName) {
   import(`../levels/${levelName}.js`)
     .then(module => {
       const level = module[levelName.split('/').pop()];
-      initGame(level);  // передаём уровень в контроллер
+
       setupToolbar();
+      initGame(level); 
+      
     })
     .catch(err => {
       console.error("Failed to load level:", err);
@@ -22,7 +24,7 @@ if (!levelName) {
 
 const titleElement = document.getElementById("game-title");
 if (titleElement && levelName) {
-  const filename = levelName.split('/').pop(); // например, "level1"
+  const filename = levelName.split('/').pop(); 
   const displayName = filename.replace(/([a-z])([A-Z])/g, '$1 $2')  // levelName → level Name
                               .replace(/(\d+)/g, ' $1')             // level1 → level 1
                               .replace(/^./, s => s.toUpperCase()); // first letter uppercase
