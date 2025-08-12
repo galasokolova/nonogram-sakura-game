@@ -1,9 +1,10 @@
+// view/board.js
 import { ctx } from './canvas.js';
-import { getCellSize } from './grid.js';
 import { config } from '../config/config.js';
 import { drawCross, drawDot } from './symbols.js';
-import { getGridOffsets } from '../utils/offsets.js';
-
+import { getCellSize } from './grid.js';
+import { getGridOffsets } from '../utils/offsets.js'; // можно убрать, если везде перейдёшь на getCellRect
+import { getCellRect } from '../utils/coords.js';     // ← НОВОЕ
 
 export function drawUserBoard(level, board) {
   const { width: cellWidth, height: cellHeight } = getCellSize(level);
@@ -11,46 +12,25 @@ export function drawUserBoard(level, board) {
 
   for (let r = 0; r < level.rows; r++) {
     for (let c = 0; c < level.cols; c++) {
-
       const value = board[r][c];
-      const { x, y, w, h } = getCellCoordinates(r, c, cellWidth, cellHeight, gridOffsetX, gridOffsetY);
+
+      // если хочешь учесть внутренние паддинги клетки — скорректируй прямоугольник:
+      const rect = getCellRect(level, r, c);
+      const x = rect.x + config.cellPadding;
+      const y = rect.y + config.cellPadding;
+      const w = rect.w - config.cellBorderAdjust;
+      const h = rect.h - config.cellBorderAdjust;
 
       drawCellByValue(value, x, y, w, h);
-
     }
   }
 }
 
-
 function drawCellByValue(value, x, y, w, h) {
   switch (value) {
-    case 1: // black square
-      ctx.fillStyle = config.colorFilled;
-      ctx.fillRect(x, y, w, h);
-      break;
-
-    case 2: // autofilled cross
-      ctx.strokeStyle = '#888'; 
-      drawCross(x, y, w, h);
-      break;
-
-    case 3: // manual cross
-      ctx.strokeStyle = '#222'; 
-      drawCross(x, y, w, h);
-      break;
-
-    case 4: // dot
-      drawDot(x, y, w, h);
-      break;
+    case 1: ctx.fillStyle = config.colorFilled; ctx.fillRect(x, y, w, h); break;
+    case 2: ctx.strokeStyle = '#888'; drawCross(x, y, w, h); break;
+    case 3: ctx.strokeStyle = '#222'; drawCross(x, y, w, h); break;
+    case 4: drawDot(x, y, w, h); break;
   }
-}
-
-
-function getCellCoordinates(r, c, cellWidth, cellHeight, gridOffsetX, gridOffsetY) {
-  return {
-    x: c * cellWidth + config.cellPadding + gridOffsetX,
-    y: r * cellHeight + config.cellPadding + gridOffsetY,
-    w: cellWidth - config.cellBorderAdjust,
-    h: cellHeight - config.cellBorderAdjust
-  };
 }
