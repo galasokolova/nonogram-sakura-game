@@ -13,7 +13,7 @@ export const config = {
   cellBorderAdjust: 2,
   colorFilled: "#000",
 
-  // цвета подсветки (опционально)
+
   highlight: {
     row: 'rgba(0,0,0,0.06)',
     col: 'rgba(0,0,0,0.06)',

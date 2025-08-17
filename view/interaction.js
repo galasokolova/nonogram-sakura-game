@@ -11,17 +11,18 @@ import { drawHighlights, handleHighlightPointer, clearHighlight } from './highli
 export function setupInteraction(level, userBoard) {
   let isDrawing = false;
   let moved = false; // был ли сдвиг курсора после нажатия
+  let hasWon = false;
 
   function redraw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    resizeCanvas(level);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  resizeCanvas(level);
+  drawGrid(level);
+  drawHints(level, userBoard);
+  drawHighlights(level);
+  drawUserBoard(level, userBoard);
 
-    drawGrid(level);
-    drawHints(level, userBoard);
-    drawHighlights(level);        // ← рисуем подсветку ДО пользовательского поля,
-    drawUserBoard(level, userBoard); //   чтобы она была под содержимым
-
-    if (checkWin(level, userBoard)) {
+    if (!hasWon && checkWin(level, userBoard)) {
+      hasWon = true;
       alert("WOW! Well done! 🎉");
     }
   }

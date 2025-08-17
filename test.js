@@ -11,4 +11,9 @@ let square1 = Array.from(
 
 console.log(square1);
 
-
+const example = () => {
+  if (a === b) return true;
+  let array = [1, 2, 3];
+  console.log(array[0] !== array[1]);
+  const arrowFunc = () => array.filter(item => item >= 2);
+};
