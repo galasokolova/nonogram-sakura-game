@@ -1,32 +1,22 @@
+// main/gameMain.js
 import { initGame } from '../controller/gameController.js';
 import { setupToolbar } from '../view/toolbar.js';
+import { 
+  getLevelParam, 
+  loadLevelOrFail, 
+  setTitleFromLevel 
+} from './utils/levelLoader.js';
 
-const params = new URLSearchParams(window.location.search);
-const levelName = params.get("level");
-
-if (!levelName) {
-  alert("Level not specified in URL!");
-} else {
-  import(`../levels/${levelName}.js`)
-    .then(module => {
-      const level = module[levelName.split('/').pop()];
-
+(async function main() {
+  try {
+    const levelName = getLevelParam();
+    setTitleFromLevel(levelName);   // заголовок
+    await loadLevelOrFail(levelName, async (level) => {
       setupToolbar();
-      initGame(level); 
-      
-    })
-    .catch(err => {
-      console.error("Failed to load level:", err);
-      alert("Failed to load the specified level.");
+      initGame(level);
     });
-}
-
-
-const titleElement = document.getElementById("game-title");
-if (titleElement && levelName) {
-  const filename = levelName.split('/').pop(); 
-  const displayName = filename.replace(/([a-z])([A-Z])/g, '$1 $2')  // levelName → level Name
-                              .replace(/(\d+)/g, ' $1')             // level1 → level 1
-                              .replace(/^./, s => s.toUpperCase()); // first letter uppercase
-  titleElement.textContent = displayName;
-}
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Failed to load the specified level.");
+  }
+})();

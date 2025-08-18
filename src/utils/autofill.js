@@ -1,13 +1,19 @@
 // utils/autofill.js
 import { CELL } from "../config/constants.js";
-import { getColumns } from "./hintCalc.js";          // уже есть у тебя
-import { arraysEqual } from "../view/hints.js"; // если arraysEqual нет — см. ниже
-import { getHintFromLine } from "./checkWin.js"
+import { getColumns, getHintFromLine } from "./hintCalc.js"; // всё из одного места
+
+function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
 
 /**
- * Автоматически ставит крестики (CELL.CROSS) в строках/колонках,
- * где подсказки полностью совпали с тем, что закрасил пользователь.
- * Ничего не рисует — только правит userBoard.
+ * Ставит авто-крестики (CELL.AUTO_CROSS) там, где подсказки полностью совпали.
  */
 export function autoFillCrosses(level, userBoard) {
   // строки
@@ -16,7 +22,7 @@ export function autoFillCrosses(level, userBoard) {
     if (arraysEqual(userHints, level.rowHints[r])) {
       for (let c = 0; c < level.cols; c++) {
         if (userBoard[r][c] === CELL.EMPTY) {
-          userBoard[r][c] = CELL.CROSS; // авто-крестик
+          userBoard[r][c] = CELL.AUTO_CROSS; // ← ВАЖНО: правильная константа
         }
       }
     }
@@ -29,7 +35,7 @@ export function autoFillCrosses(level, userBoard) {
     if (arraysEqual(userColHints, level.colHints[c])) {
       for (let r = 0; r < level.rows; r++) {
         if (userBoard[r][c] === CELL.EMPTY) {
-          userBoard[r][c] = CELL.CROSS; // авто-крестик
+          userBoard[r][c] = CELL.AUTO_CROSS; // ← ВАЖНО
         }
       }
     }
@@ -37,17 +43,15 @@ export function autoFillCrosses(level, userBoard) {
 }
 
 /**
- * Сначала снимает все авто-крестики (CELL.CROSS), потом снова запускает авторасстановку.
+ * Сбрасывает авто-крестики и проставляет заново.
  */
 export function refreshCrosses(level, userBoard) {
   for (let r = 0; r < level.rows; r++) {
     for (let c = 0; c < level.cols; c++) {
-      if (userBoard[r][c] === CELL.CROSS) {
+      if (userBoard[r][c] === CELL.AUTO_CROSS) {
         userBoard[r][c] = CELL.EMPTY;
       }
     }
   }
   autoFillCrosses(level, userBoard);
 }
-
-

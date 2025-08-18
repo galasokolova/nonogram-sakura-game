@@ -28,24 +28,24 @@ export function drawUserBoard(level, board) {
 
 function drawCellByValue(value, x, y, w, h) {
   switch (value) {
-    case 1:
+    case CELL.FILLED:
       ctx.fillStyle = config.colorFilled;
       ctx.fillRect(x, y, w, h);
       break;
 
-    case 2: // auto cross
+    case CELL.AUTO_CROSS:
       ctx.strokeStyle = config.cross.auto.color;
       ctx.lineWidth = config.cross.auto.lineWidth;
       drawCross(x, y, w, h);
       break;
 
-    case 3: // manual cross
+    case CELL.MANUAL_CROSS:
       ctx.strokeStyle = config.cross.manual.color;
       ctx.lineWidth = config.cross.manual.lineWidth;
       drawCross(x, y, w, h);
       break;
 
-    case 4:
+    case CELL.DOT:
       drawDot(x, y, w, h);
       break;
   }

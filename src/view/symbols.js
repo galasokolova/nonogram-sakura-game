@@ -1,11 +1,15 @@
 import { ctx } from './canvas.js';
 import { config } from '../config/config.js';
 
-export function drawCross(x, y, w, h, style) {
+export function drawCross(x, y, w, h, style = null) {
   ctx.save();
 
-  ctx.strokeStyle = style.color;
-  ctx.lineWidth = style.lineWidth;
+  // Используем стиль только если он передан
+  if (style) {
+    ctx.strokeStyle = style.color;
+    ctx.lineWidth = style.lineWidth;
+  }
+
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(x + w, y + h);
@@ -15,7 +19,6 @@ export function drawCross(x, y, w, h, style) {
 
   ctx.restore();
 }
-
 
 export function drawDot(x, y, w, h, style = config.dot) {
   ctx.save();
