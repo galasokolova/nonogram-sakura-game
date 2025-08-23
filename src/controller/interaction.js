@@ -10,6 +10,8 @@ import { clientToCell } from '../utils/coords.js';
 import { drawHighlights, handleHighlightPointer, clearHighlight } from '../view/highlight.js';
 import { reloadBoard } from '../controller/gameController.js';
 import { CELL } from '../config/constants.js'; // если нет CELL.RELOAD — не страшно
+import { showWinPopup } from '../view/winPopup.js';
+
 
 export function setupInteraction(level, userBoard) {
   let isDrawing = false;
@@ -26,8 +28,9 @@ export function setupInteraction(level, userBoard) {
 
     if (!hasWon && checkWin(level, userBoard)) {
       hasWon = true;
-      alert("WOW! Well done! 🎉");
+      showWinPopup(level, userBoard); // 👈 вызываем новое окно
     }
+
   }
 
   function getCellFromEvent(x, y) {
