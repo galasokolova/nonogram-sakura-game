@@ -42,5 +42,27 @@ export const config = {
   dot: {
     color: '#000',
     radiusRatio: 1 / 6, // radius relative to the cell size
+  },
+
+   winPopup: {
+    cellSize: 20,
+    filledColor: '#000',
+    overlayColor: 'rgba(0,0,0,0.6)',
+
+    modal: {
+      background: 'white',
+      padding: '20px',
+      borderRadius: '12px',
+      boxShadow: '0 0 20px rgba(0,0,0,0.4)',
+      gap: '12px',
+    },
+
+    button: {
+      background: '#333',
+      color: '#fff',
+      borderRadius: '8px',
+      padding: '8px 16px',
+      cursor: 'pointer',
+    }
   }
 };
