@@ -6,6 +6,8 @@ import { getCellSize } from './grid.js'; // src\view\grid.js
 import { getGridOffsets } from '../utils/offsets.js';  // src\utils\offsets.js
 import { getCellRect } from '../utils/coords.js'; 
 import { CELL } from '../config/constants.js';   //   src\utils\coords.js
+import { reloadBoard } from '../controller/gameController.js';
+
 
 export function drawUserBoard(level, board) {
   const { width: cellWidth, height: cellHeight } = getCellSize(level);

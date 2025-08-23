@@ -1,3 +1,4 @@
+// view/interaction.js
 import { drawGrid } from '../view/grid.js';
 import { drawHints } from '../view/hints.js';
 import { drawUserBoard } from '../view/board.js';
@@ -7,19 +8,21 @@ import { resizeCanvas, canvas, ctx } from '../view/canvas.js';
 import { refreshCrosses } from '../utils/autofill.js';
 import { clientToCell } from '../utils/coords.js';
 import { drawHighlights, handleHighlightPointer, clearHighlight } from '../view/highlight.js';
+import { reloadBoard } from '../controller/gameController.js';
+import { CELL } from '../config/constants.js'; // если нет CELL.RELOAD — не страшно
 
 export function setupInteraction(level, userBoard) {
   let isDrawing = false;
-  let moved = false; // был ли сдвиг курсора после нажатия
+  let moved = false; 
   let hasWon = false;
 
   function redraw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  resizeCanvas(level);
-  drawGrid(level);
-  drawHints(level, userBoard);
-  drawHighlights(level);
-  drawUserBoard(level, userBoard);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    resizeCanvas(level);
+    drawGrid(level);
+    drawHints(level, userBoard);
+    drawHighlights(level);
+    drawUserBoard(level, userBoard);
 
     if (!hasWon && checkWin(level, userBoard)) {
       hasWon = true;
@@ -32,67 +35,60 @@ export function setupInteraction(level, userBoard) {
     return { row, col, inside };
   }
 
-  function drawAt(x, y) {
-    // обновляем подсветку при любом движении
-    handleHighlightPointer(level, x, y, canvas);
+  function handlePotentialReset(tool) {
+    // Если вдруг «ресет» выбран как инструмент — выполняем сброс и ничего не пишем в доску
+    if (tool === CELL.RELOAD || tool === 5) {
+      reloadBoard();
+      return true;
+    }
+    return false;
+  }
 
+  function drawAt(x, y) {
+    handleHighlightPointer(level, x, y, canvas);
     const { row, col, inside } = getCellFromEvent(x, y);
     if (!inside) { redraw(); return; }
 
     const tool = getTool();
+    if (handlePotentialReset(tool)) return;
 
-    // нельзя вручную ставить автокрестики
-    if (tool === 2) return;
+    if (tool === CELL.AUTO_CROSS) return; // автокрест руками не ставим
 
-    // резинка не стирает автокрестики
-    if (tool === 0) {
-      if (userBoard[row][col] !== 2) {
-        userBoard[row][col] = 0;
-        redraw();
-      } else {
-        // только перерисовать подсветку
-        redraw();
+    if (tool === CELL.EMPTY) {
+      if (userBoard[row][col] !== CELL.AUTO_CROSS) {
+        userBoard[row][col] = CELL.EMPTY;
       }
+      redraw();
       return;
     }
 
-    // обычная постановка инструмента во время «протягивания»
     if (userBoard[row][col] !== tool) {
       userBoard[row][col] = tool;
-      if (tool === 1) refreshCrosses(level, userBoard); // авто-кресты только после закраски
-      redraw();
-    } else {
-      // даже если значение не изменилось — обновим подсветку
-      redraw();
+      if (tool === CELL.FILLED) refreshCrosses(level, userBoard);
     }
+    redraw();
   }
 
   function toggleCell(x, y) {
-    // клик без движения — переключаем/стираем
     handleHighlightPointer(level, x, y, canvas);
-
     const { row, col, inside } = getCellFromEvent(x, y);
     if (!inside) { redraw(); return; }
 
     const tool = getTool();
+    if (handlePotentialReset(tool)) return;
 
-    if (tool === 2) return; // автокрестики руками не ставим
+    if (tool === CELL.AUTO_CROSS) { redraw(); return; }
 
-    if (tool === 0) {
-      if (userBoard[row][col] !== 2) {
-        userBoard[row][col] = 0;
+    if (tool === CELL.EMPTY) {
+      if (userBoard[row][col] !== CELL.AUTO_CROSS) {
+        userBoard[row][col] = CELL.EMPTY;
       }
       redraw();
       return;
     }
 
-    if (userBoard[row][col] === tool) {
-      userBoard[row][col] = 0;
-    } else {
-      userBoard[row][col] = tool;
-      if (tool === 1) refreshCrosses(level, userBoard);
-    }
-
+    userBoard[row][col] = (userBoard[row][col] === tool) ? CELL.EMPTY : tool;
+    if (tool === CELL.FILLED) refreshCrosses(level, userBoard);
     redraw();
   }
 
@@ -108,7 +104,6 @@ export function setupInteraction(level, userBoard) {
       moved = true;
       drawAt(e.clientX, e.clientY);
     } else {
-      // обновлять подсветку и без рисования — при hover
       handleHighlightPointer(level, e.clientX, e.clientY, canvas);
       redraw();
     }

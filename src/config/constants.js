@@ -3,5 +3,5 @@ export const CELL = Object.freeze({
   FILLED: 1,
   AUTO_CROSS: 2,
   MANUAL_CROSS: 3,
-  DOT: 4,
+  DOT: 4
 });
