@@ -1,0 +1,216 @@
+/* Это путь к файлу стилей:  assets\css\style.css 
+Где я ошиблась в директориях? Не отображается страница*/
+
+:root {
+  --hint-font: 24px, Arial, sans-serif;
+  --hint-color: #000000;
+  --hint-bg: #ebffdb;
+  --hint-border: #4d7a04;
+  --hint-solved: #aaa; /* ← Добавь сюда */ /* Светло-серый цвет для отгаданных чисел */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --hint-font: 24px 'Arial';
+    --hint-solved: #aaa;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --hint-font: 10px 'Arial';
+    --hint-solved: #aaa;
+  }
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  text-align: center;
+  /* position: relative;  - Это больше не нужно для body, если фон fixed */
+  z-index: 1;
+  /* overflow: hidden; */
+}
+
+body::before {
+  content: "";
+  position: fixed; /* Изменяем на fixed */
+  top: 0;
+  left: 0;
+  width: 100vw;   /* 100% ширины viewport'а */
+  height: 100vh;  /* 100% высоты viewport'а */
+  background-image: url('../images/sakura.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+canvas {
+/*   display: block;
+  max-width: 100%;
+  max-height: 100vh; */
+  background: white;
+}
+
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 3em;
+  }
+
+  canvas {
+    width: 90vw;
+    height: auto;
+  }
+}
+
+
+/* Custom Fonts style-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Regular version of Night in Tokyo */
+@font-face {
+  font-family: 'Night in Tokyo';
+  src: url('../fonts/night-in-tokyo/NightinTokyo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Night in Tokyo';
+  src: url('../fonts/night-in-tokyo/NightinTokyo-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Night in Tokyo Shadow';
+  src: url('../fonts/night-in-tokyo/NightinTokyoShadow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+ /* Apply the font to heading */
+h1 {
+    font-family: 'Night in Tokyo', sans-serif;
+    font-size: 3em;
+    color: #333; 
+    text-align: center;
+    text-shadow: 20px 20px 20px #ca08c3ef;
+} 
+
+/* Стиль только для уровня */
+.level-title {
+  font-family: 'Night in Tokyo', sans-serif;
+  font-size: 3em;
+  color: #9e2b89;
+  text-align: center;
+  text-shadow: 30px 20px 20px #000000;
+}
+
+/* Главный заголовок (на index.html) */
+.main-title {
+  font-family: 'Night in Tokyo', sans-serif;
+  font-size: 3.5em;
+  color: #333; 
+  text-align: center;
+  text-shadow: 1px 1px 4px #5e0275;
+}
+
+/*  to use the shadow version specifically for something */
+/* for a subtitle or a special effect */
+.my-shadow-text {
+    font-family: 'Night in Tokyo Shadow', sans-serif;
+    color: #000000;
+}
+
+/* Buttons----------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* Button container style */
+#toolbar {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 0px; 
+    margin-top: 20px; /* padding from the game canvas */
+    
+}
+
+.toolbar-button {
+    display: flex; /* Каждая кнопка теперь тоже flex-контейнер для центрирования содержимого */
+    justify-content: center; /* Центрируем текст/символ по горизонтали */
+    align-items: center; /* Центрируем текст/символ по вертикали */
+
+    /* Фиксированные размеры для одинаковости и вытянутости */
+    width: 60px;  /* Шире для горизонтальной вытянутости */
+    height: 45px; /* Меньше для горизонтальной вытянутости */
+
+    padding: 0; /* Убираем padding, так как размер контролируется width/height */
+    border: none;
+    border-radius: 1px; /* Добавил border-radius, если он был утерян */
+
+    font-size: 24px; /* Увеличим размер шрифта, чтобы символы были видны в кнопках */
+    font-weight: 600;
+    text-shadow: 0px 0px 5px #d9ffa8, 0px 0px 10px #a1ff27;
+    text-decoration: none;
+    background: #32610b;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.toolbar-button:hover {
+    background: #32610b; /* Возвращаем базовый фон кнопки, чтобы он не менялся */
+    text-shadow: 0px 0px 20px #d9ffa8, 0px 0px 20px #a1ff27;/* Усиливаем тень текста для подсветки */
+    /* box-shadow: none; */ /* Если у кнопки есть box-shadow, можно убрать его при наведении */
+}
+
+
+.active-tool {
+  outline: 3px solid #395202;
+  transform: scale(1.05);
+}
+
+
+/* Адаптивность для кнопок панели инструментов */
+@media (max-width: 600px) {
+    #toolbar {
+        gap: 0.2px; /* Уменьшаем промежуток на мобильных */
+    }
+    .toolbar-button {
+        width: 60px; /* Меньше для мобильных */
+        height: 35px;
+        font-size: 20px;
+    }
+}
+
+/* button on the homepage*/
+.main-button {
+    font-family: sans-serif;
+    font-size: 24px;
+    width: 380px; /* Задаем фиксированную ширину, подберите значение, которое вам подходит */
+    padding: 10px 0; /* Убираем горизонтальный padding, так как ширина теперь фиксирована */
+    text-align: center; /* Центрируем текст внутри кнопки */
+    display: inline-block; /* Позволяет задавать ширину и высоту, оставаясь в потоке */
+    box-sizing: border-box; /* Важно, чтобы padding и border не увеличивали общую ширину */
+
+    background-color: #030b00ef;
+    border: none;
+    border-radius: 8px;
+    color: #a65db9;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4); /* Исправлена ошибка: 5 5 10px -> 5px 5px 10px */
+    transition: all 0.3s ease;
+}
+
+.main-button:hover {
+    background-color: #9e2b89;
+    box-shadow: 0 0 55px rgba(205, 19, 193, 0.6);
+    color: #fff;
+}
