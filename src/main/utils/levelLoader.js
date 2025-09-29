@@ -1,6 +1,4 @@
 // main/utils/levelLoader.js
-
-/** Берём "level" из URL (или null) */
 export function getLevelParam(search = window.location.search) {
   const params = new URLSearchParams(search);
   return params.get("level");

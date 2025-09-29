@@ -1,4 +1,3 @@
-// main/gameMain.js
 import { initGame } from '../controller/gameController.js';
 import { setupToolbar } from '../view/toolbar.js';
 import { 
